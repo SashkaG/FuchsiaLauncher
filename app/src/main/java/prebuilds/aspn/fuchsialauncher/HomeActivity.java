@@ -29,6 +29,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.SearchView;
 import android.text.format.Time;
 import android.util.Log;
@@ -141,7 +142,7 @@ public class HomeActivity extends AppCompatActivity {
                         app.name=info2.packageName;
                         app.icon=info2.loadIcon(pm);
                         Intent i = pm.getLaunchIntentForPackage(info2.packageName);
-                        if(i!=null&&i.getCategories().contains(Intent.CATEGORY_LAUNCHER))
+                        if(i!=null&&i.hasCategory(Intent.CATEGORY_LAUNCHER))
                         {
                             runningApps.add(app);
                         }
@@ -279,6 +280,9 @@ public class HomeActivity extends AppCompatActivity {
     private void createApps()
     {
         apps.setContentView(R.layout.apps);
+
+
+
         apps.setOnKeyListener(new Dialog.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
@@ -295,6 +299,10 @@ public class HomeActivity extends AppCompatActivity {
         apps.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
+                WindowManager.LayoutParams lp= apps.getWindow().getAttributes();
+                lp.dimAmount=0.6f;  // dimAmount between 0.0f and 1.0f, 1.0f is completely dark
+                apps.getWindow().setAttributes(lp);
+                apps.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                 showApps();
             }
         });

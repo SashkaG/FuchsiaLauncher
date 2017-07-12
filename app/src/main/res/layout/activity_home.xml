@@ -88,5 +88,10 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp" />
+
     </android.support.constraint.ConstraintLayout>
+    <include
+        layout="@layout/main_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
