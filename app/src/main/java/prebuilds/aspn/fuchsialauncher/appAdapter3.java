@@ -68,6 +68,7 @@ class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+
     }
 
 }
@@ -111,6 +112,7 @@ public class appAdapter3 extends RecyclerView.Adapter<appAdapter3.ViewHolder> im
             super(v);
             color = colors[new Random().nextInt(appAdapter3.colors.length)];
             mImageView = (CircularImageView) v.findViewById(R.id.icon);
+            mImageView.setBorderColor(Color.parseColor(color));
             mTextView = (TextView) v.findViewById(R.id.name);
             header = (LinearLayout)v.findViewById(R.id.header);
             header.setBackgroundColor(Color.parseColor(color));
