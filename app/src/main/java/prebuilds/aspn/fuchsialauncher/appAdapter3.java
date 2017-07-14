@@ -3,6 +3,7 @@ package prebuilds.aspn.fuchsialauncher;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -10,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -94,15 +98,15 @@ public class appAdapter3 extends RecyclerView.Adapter<appAdapter3.ViewHolder> im
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // наш пункт состоит только из одного TextView
         public TextView mTextView;
-        public ImageView mImageView;
-        public CardView mCard;
+        public CircularImageView mImageView;
+        public ConstraintLayout mCard;
         public String pkgName;
         public ViewHolder(View v) {
             super(v);
 
-            mImageView = (ImageView)v.findViewById(R.id.icon);
+            mImageView = (CircularImageView) v.findViewById(R.id.icon);
             mTextView = (TextView) v.findViewById(R.id.name);
-            mCard =(CardView)v.findViewById(R.id.card);
+            mCard = (ConstraintLayout) v.findViewById(R.id.card);
         }
     }
 
@@ -110,9 +114,16 @@ public class appAdapter3 extends RecyclerView.Adapter<appAdapter3.ViewHolder> im
         mContext = c;
         applist = capp;
     }
-    public void remove(int poz)
+    public void add(App app)
     {
-        applist.remove(poz);
+        applist.add(applist.size()-1,app);
+        notifyItemInserted(applist.size()-1);
+    }
+    public void remove(App app)
+    {
+        int pos = applist.indexOf(app);
+        applist.remove(pos);
+        notifyItemRemoved(pos);
     }
     @Override
     public void onAttachedToRecyclerView(final RecyclerView recyclerView) {

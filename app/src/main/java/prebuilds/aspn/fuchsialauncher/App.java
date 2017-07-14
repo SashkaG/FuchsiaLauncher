@@ -18,4 +18,21 @@ public class App{
     }
     public App()
     {}
+    @Override
+    public boolean equals(Object v) {
+        boolean retVal = false;
+
+        if (v instanceof App){
+            App ptr = (App) v;
+            retVal = ptr.name==this.name && ptr.label == this.label;
+        }
+
+        return retVal;
+    }
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + (this.name != null ? this.name.hashCode() : 0)+(this.label != null ? this.label.hashCode() : 0);
+        return hash;
+    }
 }

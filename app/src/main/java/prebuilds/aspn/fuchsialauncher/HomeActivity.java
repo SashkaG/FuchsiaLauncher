@@ -50,6 +50,7 @@ import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND;
@@ -81,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(HomeActivity.this);
         rv.setLayoutManager(llm);
         rv.setAdapter(new appAdapter3(HomeActivity.this,runningApps));
-        getRunningApps();
+        //getRunningApps();
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback((ItemTouchHelperAdapter) rv.getAdapter());
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rv);
@@ -132,7 +133,7 @@ public class HomeActivity extends AppCompatActivity {
             protected void onPostExecute(Void result)
             {
                 PackageManager pm = HomeActivity.this.getPackageManager();
-                runningApps.clear();
+                ArrayList<App> newr = new ArrayList<>();
                 for(ActivityManager.RunningAppProcessInfo info : procInfos)
                 {
                     App app = new App();
@@ -144,14 +145,22 @@ public class HomeActivity extends AppCompatActivity {
                         Intent i = pm.getLaunchIntentForPackage(info2.packageName);
                         if(i!=null&&i.hasCategory(Intent.CATEGORY_LAUNCHER))
                         {
-                            runningApps.add(app);
+                            newr.add(app);
+                            if(!runningApps.contains(app))
+                            {
+                                ((appAdapter3)rv.getAdapter()).add(app);
+                            }
                         }
-
                     } catch (Exception e) {
                     }
-
                 }
-                rv.getAdapter().notifyDataSetChanged();
+                for (App app : new ArrayList<App>(runningApps))
+                {
+                    if(!newr.contains(app))
+                    {
+                        ((appAdapter3)rv.getAdapter()).remove(app);
+                    }
+                }
             }
 
         };
