@@ -2,6 +2,8 @@ package prebuilds.aspn.fuchsialauncher;
 
 import android.graphics.drawable.Drawable;
 
+import java.util.ArrayList;
+
 /**
  * Created by Никита on 10.07.2017.
  */
@@ -24,7 +26,7 @@ public class App{
 
         if (v instanceof App){
             App ptr = (App) v;
-            retVal = ptr.name==this.name && ptr.label == this.label;
+            retVal = ptr.name.toString().equals(this.name.toString());
         }
 
         return retVal;
@@ -32,7 +34,7 @@ public class App{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + (this.name != null ? this.name.hashCode() : 0)+(this.label != null ? this.label.hashCode() : 0);
+        hash = 17 * hash + (this.name != null ? this.name.toString().hashCode() : 0);
         return hash;
     }
 }

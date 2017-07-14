@@ -3,6 +3,7 @@ package prebuilds.aspn.fuchsialauncher;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +17,10 @@ import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
@@ -72,6 +75,7 @@ class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 public class appAdapter3 extends RecyclerView.Adapter<appAdapter3.ViewHolder> implements ItemTouchHelperAdapter{
     private Context mContext;
     private ArrayList<App> applist;
+    private static String[] colors = {"#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#4CAF50","#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800","#FF5722","#795548"};
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
@@ -101,11 +105,15 @@ public class appAdapter3 extends RecyclerView.Adapter<appAdapter3.ViewHolder> im
         public CircularImageView mImageView;
         public ConstraintLayout mCard;
         public String pkgName;
+        public LinearLayout header;
+        public String color;
         public ViewHolder(View v) {
             super(v);
-
+            color = colors[new Random().nextInt(appAdapter3.colors.length)];
             mImageView = (CircularImageView) v.findViewById(R.id.icon);
             mTextView = (TextView) v.findViewById(R.id.name);
+            header = (LinearLayout)v.findViewById(R.id.header);
+            header.setBackgroundColor(Color.parseColor(color));
             mCard = (ConstraintLayout) v.findViewById(R.id.card);
         }
     }
@@ -116,7 +124,7 @@ public class appAdapter3 extends RecyclerView.Adapter<appAdapter3.ViewHolder> im
     }
     public void add(App app)
     {
-        applist.add(applist.size()-1,app);
+        applist.add(app);
         notifyItemInserted(applist.size()-1);
     }
     public void remove(App app)
